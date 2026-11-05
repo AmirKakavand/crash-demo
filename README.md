@@ -1,6 +1,6 @@
 # Neon Snake & Network Recovery Demo
 
-![Gameplay Preview](./screenshot.png)
+![Gameplay Preview](./public/screenshot.png)
 
 A high-performance, mobile-optimized interactive client built to demonstrate iGaming-specific frontend architecture: PixiJS rendering at 60 FPS, strict network state recovery, and bundle size optimization (<250KB).
 
