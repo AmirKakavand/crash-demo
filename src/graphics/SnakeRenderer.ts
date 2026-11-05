@@ -13,8 +13,6 @@ export class SnakeRenderer {
   private time = 0;
 
   public isConnected = true;
-
-  // Explicitly declared to satisfy erasableSyntaxOnly
   private game: SnakeGame;
 
   constructor(container: HTMLElement, game: SnakeGame) {
@@ -54,11 +52,11 @@ export class SnakeRenderer {
     const w = this.app.screen.width;
     const h = this.app.screen.height;
 
-    const minDimension = Math.min(w, h) - 80;
+    const minDimension = Math.min(w, h) - 40;
     this.cellSize = minDimension / this.game.gridSize;
 
     this.boardOffset.x = (w - (this.cellSize * this.game.gridSize)) / 2;
-    this.boardOffset.y = (h - (this.cellSize * this.game.gridSize)) / 2 + 40;
+    this.boardOffset.y = (h - (this.cellSize * this.game.gridSize)) / 2 + 30;
 
     this.statusText.position.set(w / 2, this.boardOffset.y + (this.cellSize * this.game.gridSize) / 2);
   }
@@ -69,6 +67,7 @@ export class SnakeRenderer {
 
     const w = this.app.screen.width;
     const isMobile = w < 768;
+    const boardWidth = this.cellSize * this.game.gridSize;
 
     const g = this.graphics;
     g.clear();
@@ -78,8 +77,8 @@ export class SnakeRenderer {
     g.drawRect(
       this.boardOffset.x,
       this.boardOffset.y,
-      this.cellSize * this.game.gridSize,
-      this.cellSize * this.game.gridSize
+      boardWidth,
+      boardWidth
     );
     g.endFill();
 
@@ -104,9 +103,11 @@ export class SnakeRenderer {
     });
 
     this.statusText.visible = false;
+    // Reset scale prior to calculating new bounds
+    this.statusText.scale.set(1);
 
     if (!this.isConnected) {
-      this.statusText.style.fontSize = isMobile ? 32 : 48;
+      this.statusText.style.fontSize = isMobile ? 26 : 40;
       this.statusText.text = 'NETWORK DROPPED\nReconnecting...';
       this.statusText.visible = true;
       this.scoreText.style.fill = '#888888';
@@ -115,7 +116,7 @@ export class SnakeRenderer {
       g.drawRect(0, 0, this.app.screen.width, this.app.screen.height);
       g.endFill();
     } else if (this.game.isGameOver) {
-      this.statusText.style.fontSize = isMobile ? 28 : 48;
+      this.statusText.style.fontSize = isMobile ? 24 : 38;
       const restartMsg = isMobile ? 'Tap anywhere to restart' : 'Press Space to restart';
       this.statusText.text = `GAME OVER\nSCORE: ${this.game.score}\n${restartMsg}`;
       this.statusText.visible = true;
@@ -125,6 +126,13 @@ export class SnakeRenderer {
       this.scoreText.text = `SCORE: ${this.game.score}`;
       this.scoreText.style.fill = '#ffffff';
       this.scoreText.style.dropShadowColor = '#00ffaa';
+    }
+
+    // Auto-fit: Ensure text never exceeds 90% of the game board's width
+    const maxAllowedWidth = boardWidth * 0.9;
+    if (this.statusText.visible && this.statusText.width > maxAllowedWidth) {
+      const fitRatio = maxAllowedWidth / this.statusText.width;
+      this.statusText.scale.set(fitRatio);
     }
   }
 }
