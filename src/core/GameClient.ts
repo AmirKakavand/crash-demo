@@ -1,4 +1,4 @@
-import { GameState, ServerMessage, GameEventListener } from './types';
+import type { GameState, ServerMessage, GameEventListener } from './types';
 
 export class GameClient {
     private state: GameState = {
