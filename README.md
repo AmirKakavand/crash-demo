@@ -23,15 +23,19 @@ A high-performance, lightweight Crash Game frontend client built to demonstrate 
 ### Installation
 ```bash
 npm install
+```
 
 ### Running Locally
 ```bash
 npm run dev
+```
 
 ### Running Tests
 ```bash
 npm run test
+```
 
 ### Production Build
 ```bash
 npm run build
+```
