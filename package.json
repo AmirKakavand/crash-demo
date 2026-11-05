@@ -1,0 +1,23 @@
+{
+  "name": "crash-demo",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "typescript": "~7.0.2",
+    "vite": "^8.3.6",
+    "vitest": "^5.1.0"
+  },
+  "dependencies": {
+    "@pixi/app": "^7.4.3",
+    "@pixi/core": "^7.4.3",
+    "@pixi/graphics": "^7.4.3",
+    "@pixi/text": "^7.4.3",
+    "@pixi/ticker": "^7.4.3"
+  }
+}
