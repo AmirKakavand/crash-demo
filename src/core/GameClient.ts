@@ -14,8 +14,12 @@ export class GameClient {
     private maxReconnectAttempts = 5;
     private timer: ReturnType<typeof setInterval> | null = null;
 
-    // mockServerCrashAt allows us to test different crash scenarios
-    constructor(private mockServerCrashAt = 3.5) { }
+    // Explicitly declared to satisfy erasableSyntaxOnly
+    private mockServerCrashAt: number;
+
+    constructor(mockServerCrashAt = 3.5) {
+        this.mockServerCrashAt = mockServerCrashAt;
+    }
 
     public subscribe(listener: GameEventListener): () => void {
         this.listeners.add(listener);
@@ -52,7 +56,6 @@ export class GameClient {
         }, backoff);
     }
 
-    // State Recovery: Ask server for an absolute snapshot upon reconnecting
     private requestStateSnapshot(): void {
         if (!this.isConnected) return;
         this.handleMessage({
@@ -91,7 +94,6 @@ export class GameClient {
             this.state.currentMultiplier = 1.0;
         }
 
-        // Emulate server sending 100ms ticks
         this.timer = setInterval(() => {
             if (!this.isConnected || this.state.status !== 'RUNNING') return;
 
